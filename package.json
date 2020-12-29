@@ -1,7 +1,27 @@
 {
-  "name": "lingo-map",
+  "name": "language-map",
   "version": "0.1.0",
-  "private": true,
+  "description": "React and redux language heatmap.",
+  "keywords": [
+    "React",
+    "Redux",
+    "Map",
+    "Mapbox"
+  ],
+  "author": {
+    "name": "Aydin Ghane Kh.",
+    "email": "aydin.ghane.kh@gmail.com",
+    "url": "http://iding.ir"
+  },
+  "license": "ISC",
+  "main": "./index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iding-ir/language-map.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iding-ir/language-map/issues"
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
