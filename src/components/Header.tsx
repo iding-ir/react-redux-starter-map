@@ -41,8 +41,6 @@ const Header = () => {
 
   const dispatch = useDispatch();
 
-  const open = useSelector((state: IState) => state.sidebar.open) as boolean;
-
   return (
     <AppBar position="static">
       <Toolbar>

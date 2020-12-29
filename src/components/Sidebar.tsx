@@ -16,22 +16,8 @@ import { closeSidebar } from "../actions/sidebar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
     list: {
       width: 250,
-    },
-    fullList: {
-      width: "auto",
     },
   })
 );

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { GoogleLogin } from "react-google-login";
 import Button from "@material-ui/core/Button";
+import { useTranslation } from "react-i18next";
 
 import { signIn, signOut } from "../actions/auth";
 import { registerUser } from "../actions/user";
@@ -15,9 +16,6 @@ export interface User {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
     name: {
       marginRight: theme.spacing(2),
       [theme.breakpoints.down("xs")]: {
@@ -31,6 +29,9 @@ interface Props {}
 
 const Auth = (props: Props) => {
   const classes = useStyles();
+
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
 
   const user = useSelector((state: IState) => state.auth.user) as User;
@@ -44,7 +45,7 @@ const Auth = (props: Props) => {
     const user = { name, email };
 
     dispatch(signIn(user));
-    dispatch(registerUser(user))
+    dispatch(registerUser(user));
   };
 
   const onFailure = (response: any) => {
@@ -63,7 +64,7 @@ const Auth = (props: Props) => {
       <span className={classes.name}>{user.name}</span>
 
       <Button variant="contained" color="default" onClick={onSignOut}>
-        Logout
+        {t("header.logout")}
       </Button>
     </div>
   ) : (

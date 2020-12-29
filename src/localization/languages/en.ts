@@ -1,6 +1,7 @@
 const localization = {
   header: {
     title: "Language heatmap",
+    logout: "Logout",
   },
   sidebar: {
     about: "About us",
@@ -8,4 +9,4 @@ const localization = {
   },
 };
 
-export default localization
+export default localization;

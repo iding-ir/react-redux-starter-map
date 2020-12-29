@@ -10,11 +10,11 @@ export const StateContext: Context<any> = createContext({
   setState: () => {},
 });
 
-interface Props  {
+interface Props {
   children: JSX.Element[];
 }
 
-export const StateProvider = (props: Props ) => {
+export const StateProvider = (props: Props) => {
   const { children } = props;
 
   const [state, setState] = useState<State>({});
