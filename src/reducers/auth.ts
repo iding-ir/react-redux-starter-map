@@ -1,5 +1,5 @@
 import { SIGN_IN, SIGN_OUT } from "../constants";
-import { IActionUser } from "../actions/auth";
+import { IAction } from "../actions/auth";
 import { User } from "../components/Auth";
 
 export interface IStateAuth {
@@ -12,7 +12,7 @@ const initialState = {
   user: null,
 };
 
-const reducer = (state = initialState, action: IActionUser) => {
+const reducer = (state = initialState, action: IAction) => {
   switch (action.type) {
     case SIGN_IN:
       return {

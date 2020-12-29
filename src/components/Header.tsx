@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,6 +9,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useTranslation } from "react-i18next";
 
 import Auth from "./Auth";
+import { IState } from "../reducers";
+import { openSidebar } from "../actions/sidebar";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,6 +39,10 @@ const Header = () => {
 
   const { t } = useTranslation();
 
+  const dispatch = useDispatch();
+
+  const open = useSelector((state: IState) => state.sidebar.open) as boolean;
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -45,7 +52,7 @@ const Header = () => {
           color="inherit"
           aria-label="menu"
           onClick={() => {
-            setOpen(true);
+            dispatch(openSidebar());
           }}
         >
           <MenuIcon />

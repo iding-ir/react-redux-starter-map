@@ -1,4 +1,6 @@
-import React from react;
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -7,24 +9,58 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Help from "@material-ui/icons/HelpOutline";
 import MailIcon from "@material-ui/icons/Mail";
+import { useTranslation } from "react-i18next";
+
+import { IState } from "../reducers";
+import { closeSidebar } from "../actions/sidebar";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    list: {
+      width: 250,
+    },
+    fullList: {
+      width: "auto",
+    },
+  })
+);
 
 const Sidebar = () => {
+  const classes = useStyles();
+
+  const { t } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const open = useSelector((state: IState) => state.sidebar.open) as boolean;
+
   return (
     <Drawer
       anchor="left"
       open={open}
       onClose={() => {
-        setOpen(false);
+        dispatch(closeSidebar());
       }}
     >
       <div
         className={classes.list}
         role="presentation"
         onClick={() => {
-          setOpen(false);
+          dispatch(closeSidebar());
         }}
         onKeyDown={() => {
-          setOpen(false);
+          dispatch(closeSidebar());
         }}
       >
         <List>
