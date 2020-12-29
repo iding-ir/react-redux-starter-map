@@ -1,26 +1,121 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useContext } from "react";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import Drawer from "@material-ui/core/Drawer";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 
-function App() {
+import Auth from "./components/Auth";
+import { StateContext } from "./components/StateProvider";
+import MapContainer from "./components/MapContainer";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+    list: {
+      width: 250,
+    },
+    fullList: {
+      width: "auto",
+    },
+  })
+);
+
+export default function ButtonAppBar() {
+  const classes = useStyles();
+
+  const { state, setState } = useContext(StateContext);
+  const [open, setOpen] = useState(false);
+
+  const list = (
+    <div
+      className={classes.list}
+      role="presentation"
+      onClick={() => {
+        setOpen(false);
+      }}
+      onKeyDown={() => {
+        setOpen(false);
+      }}
+    >
+      <List>
+        <ListItem button key="Trash">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="Trash" />
+        </ListItem>
+      </List>
+
+      <Divider />
+
+      <List>
+        <ListItem button key="Spam">
+          <ListItemIcon>
+            <MailIcon />
+          </ListItemIcon>
+
+          <ListItemText primary="Spam" />
+        </ListItem>
+      </List>
+    </div>
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={classes.root}>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={() => {
+          setOpen(false);
+        }}
+      >
+        {list}
+      </Drawer>
+
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+
+          <Typography variant="h6" className={classes.title}>
+            Lingo Map
+          </Typography>
+
+          <Auth />
+        </Toolbar>
+      </AppBar>
+
+      <MapContainer />
     </div>
   );
 }
-
-export default App;
