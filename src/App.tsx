@@ -13,6 +13,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import { useTranslation } from "react-i18next";
 
 import Auth from "./components/Auth";
 import { StateContext } from "./components/StateProvider";
@@ -43,7 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function ButtonAppBar() {
   const classes = useStyles();
 
+  const { t } = useTranslation();
+
   const { state, setState } = useContext(StateContext);
+
   const [open, setOpen] = useState(false);
 
   const list = (
@@ -58,24 +62,24 @@ export default function ButtonAppBar() {
       }}
     >
       <List>
-        <ListItem button key="Trash">
+        <ListItem button key="about">
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
 
-          <ListItemText primary="Trash" />
+          <ListItemText primary={t("sidebar.about")} />
         </ListItem>
       </List>
 
       <Divider />
 
       <List>
-        <ListItem button key="Spam">
+        <ListItem button key="contact">
           <ListItemIcon>
             <MailIcon />
           </ListItemIcon>
 
-          <ListItemText primary="Spam" />
+          <ListItemText primary={t("sidebar.contact")} />
         </ListItem>
       </List>
     </div>
@@ -108,7 +112,7 @@ export default function ButtonAppBar() {
           </IconButton>
 
           <Typography variant="h6" className={classes.title}>
-            Lingo Map
+            {t("header.title")}
           </Typography>
 
           <Auth />
