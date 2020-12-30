@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { signIn, signOut } from "../actions/auth";
 import { registerUser } from "../actions/user";
 import { IState } from "../reducers";
-import getLocation from "../utils/geolocator";
+import getLocation from "../utils/getLocation";
 
 export interface User {
   name: string | null;
