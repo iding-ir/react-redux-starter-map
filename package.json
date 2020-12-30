@@ -22,16 +22,25 @@
   "bugs": {
     "url": "https://github.com/iding-ir/starter-map/issues"
   },
-  "dependencies": {
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "@types/jest": "^26.0.19",
+    "@types/mapbox-gl": "^2.0.0",
     "@types/node": "^12.19.11",
     "@types/react": "^16.14.2",
     "@types/react-dom": "^16.9.10",
+    "@types/react-redux": "^7.1.14"
+  },
+  "dependencies": {
     "axios": "^0.21.1",
     "i18next": "^19.8.4",
     "mapbox-gl": "^2.0.1",
@@ -50,7 +59,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "publish:npm": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline && tsc --project tsconfig.types.json"
   },
   "eslintConfig": {
     "extends": [
@@ -70,8 +80,14 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/mapbox-gl": "^2.0.0",
-    "@types/react-redux": "^7.1.14"
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }
