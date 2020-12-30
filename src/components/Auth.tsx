@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { signIn, signOut } from "../actions/auth";
 import { registerUser } from "../actions/user";
 import { IState } from "../reducers";
+import getLocation from "../utils/geolocator";
 
 export interface User {
   name: string | null;
@@ -45,7 +46,12 @@ const Auth = (props: Props) => {
     const user = { name, email };
 
     dispatch(signIn(user));
+
     dispatch(registerUser(user));
+
+    getLocation().then((position) => {
+      console.log(position);
+    });
   };
 
   const onFailure = (response: any) => {
