@@ -10,9 +10,16 @@ import { registerUser } from "../actions/user";
 import { IState } from "../reducers";
 import getLocation from "../utils/getLocation";
 
+export interface Location {
+  lnglat: {
+    lng: number;
+    lat: number;
+  };
+}
 export interface User {
-  name: string | null;
-  email: string | null;
+  name: string;
+  email: string;
+  lnglat: Location;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,24 +48,29 @@ const Auth = (props: Props) => {
   ) as boolean;
 
   const onSuccess = (response: any) => {
-    const name = response.profileObj.name;
-    const email = response.profileObj.email;
-    const user = { name, email };
+    getLocation()
+      .then((p: unknown) => {
+        const position = p as GeolocationPosition;
+        const name = response.profileObj.name as string;
+        const email = response.profileObj.email as string;
+        const lnglat = ({
+          lng: position.coords.longitude,
+          lat: position.coords.latitude,
+        } as unknown) as Location;
 
-    dispatch(signIn(user));
+        const user = { name, email, lnglat };
 
-    dispatch(registerUser(user));
+        dispatch(signIn(user));
 
-    getLocation().then((position) => {
-      console.log(position);
-    });
+        dispatch(registerUser(user));
+      })
+      .catch((error) => {
+        throw error;
+      });
   };
 
   const onFailure = (response: any) => {
-    const name = null;
-    const email = null;
-
-    dispatch(signIn({ name, email }));
+    dispatch(signOut());
   };
 
   const onSignOut = (event: any) => {
