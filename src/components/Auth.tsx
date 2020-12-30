@@ -65,6 +65,8 @@ const Auth = (props: Props) => {
         dispatch(registerUser(user));
       })
       .catch((error) => {
+        dispatch(signOut());
+
         throw error;
       });
   };
