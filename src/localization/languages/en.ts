@@ -1,6 +1,6 @@
 const localization = {
   header: {
-    title: "Language heatmap",
+    title: "Starter map",
     logout: "Logout",
   },
   sidebar: {
