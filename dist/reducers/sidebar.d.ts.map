@@ -1,0 +1,1 @@
+{"version":3,"file":"sidebar.d.ts","sourceRoot":"","sources":["../../src/reducers/sidebar.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,OAAO,EAAE,MAAM,oBAAoB,CAAC;AAE7C,MAAM,WAAW,aAAa;IAC5B,IAAI,EAAE,OAAO,CAAC;CACf;AAMD,QAAA,MAAM,OAAO;;uBAAkC,OAAO;;CAiBrD,CAAC;AAEF,eAAe,OAAO,CAAC"}
