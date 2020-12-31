@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
@@ -13,6 +13,7 @@ import { signIn, signOut } from "../actions/auth";
 import { registerUser } from "../actions/user";
 import { IState } from "../reducers";
 import getLocation from "../utils/getLocation";
+import { SnackbarContext } from "./Snackbar/SnackbarProvider";
 
 export interface Location {
   lnglat: {
@@ -46,6 +47,8 @@ const Auth = (props: Props) => {
 
   const dispatch = useDispatch();
 
+  const { snackbar, setSnackbar } = useContext(SnackbarContext);
+
   const user = useSelector((state: IState) => state.auth.user) as User;
   const isSignedIn = useSelector(
     (state: IState) => state.auth.isSignedIn
@@ -71,10 +74,20 @@ const Auth = (props: Props) => {
           dispatch(signIn(user));
 
           dispatch(registerUser(user));
+
+          setSnackbar({
+            type: "success",
+            message: "bbb",
+          });
         }
       })
       .catch((error) => {
         dispatch(signOut());
+
+        setSnackbar({
+          type: "error",
+          message: error,
+        });
 
         throw error;
       });
@@ -82,6 +95,11 @@ const Auth = (props: Props) => {
 
   const onFailure = (response: any) => {
     dispatch(signOut());
+
+    setSnackbar({
+      type: "error",
+      message: "error",
+    });
   };
 
   const onSignOut = (event: any) => {

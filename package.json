@@ -41,6 +41,7 @@
     "@types/react-redux": "^7.1.14"
   },
   "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "axios": "^0.21.1",
     "i18next": "^19.8.4",
     "mapbox-gl": "^2.0.1",

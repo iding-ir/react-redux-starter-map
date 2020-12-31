@@ -9,14 +9,17 @@ import store from "./stores";
 import App from "./components/App";
 import reportWebVitals from "./reportWebVitals";
 import StateProvider from "./components/StateProvider";
+import SnackbarProvider from "./components/Snackbar/SnackbarProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <StateProvider>
-        <CssBaseline />
-        
-        <App />
+        <SnackbarProvider>
+          <CssBaseline />
+
+          <App />
+        </SnackbarProvider>
       </StateProvider>
     </Provider>
   </React.StrictMode>,
