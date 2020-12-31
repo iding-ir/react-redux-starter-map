@@ -140,7 +140,9 @@ const LocationPicker = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const { state } = useContext(StateContext);
+  const { state, setState } = useContext(StateContext);
+
+  const { map, markers } = state;
 
   const isSignedIn = useSelector(
     (state: IState) => state.auth.isSignedIn
@@ -160,11 +162,15 @@ const LocationPicker = (props: Props) => {
   };
 
   const getLocation = () => {
-    const canter = state.map.getCenter();
+    const canter = map.getCenter();
 
     setPicker(false);
 
     dispatch(setPickedLocation(canter));
+
+    if (markers?.picked) {
+      markers.picked.remove();
+    }
 
     const marker = document.createElement("div");
     marker.className = classes.marker;
@@ -172,7 +178,9 @@ const LocationPicker = (props: Props) => {
       anchor: "bottom",
     })
       .setLngLat(canter)
-      .addTo(state.map);
+      .addTo(map);
+
+    setState({ ...state, markers: { ...markers, picked: marker } });
   };
 
   const enablePicker = () => {
@@ -194,7 +202,7 @@ const LocationPicker = (props: Props) => {
       {picker && <div className={classes.picker} onClick={getLocation} />}
 
       <Dialog
-        // onClose={handleClose}
+        onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
       >

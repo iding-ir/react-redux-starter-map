@@ -1,8 +1,9 @@
 import React, { Context, useState, createContext } from "react";
-import { Map } from "mapbox-gl";
+import { Map, Marker } from "mapbox-gl";
 
 export interface State {
   map?: Map;
+  markers?: { [key: string]: Marker };
 }
 
 export const StateContext: Context<any> = createContext({
