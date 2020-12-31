@@ -17,7 +17,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Typography from "@material-ui/core/Typography";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import mapboxgl from "mapbox-gl";
 
 import { StateContext } from "./StateProvider";
 import { setPickedLocation } from "../actions/location";
@@ -57,16 +56,6 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundSize: "100% ",
       backgroundImage: "url('../assets/images/icon-marker.png')",
       cursor: "pointer",
-      zIndex: 999,
-    },
-    marker: {
-      width: "50px",
-      height: "50px",
-      transform: "translate(-50%, -100%)",
-      backgroundRepeat: "no-repeat",
-      backgroundPosition: "bottom center",
-      backgroundSize: "100% ",
-      backgroundImage: "url('../assets/images/icon-marker.png')",
       zIndex: 999,
     },
   })
@@ -129,9 +118,7 @@ const DialogActions = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogActions);
 
-interface Props {
-  open: boolean;
-}
+interface Props {}
 
 const LocationPicker = (props: Props) => {
   const classes = useStyles();
@@ -140,20 +127,25 @@ const LocationPicker = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const { state, setState } = useContext(StateContext);
+  const { state } = useContext(StateContext);
 
-  const { map, markers } = state;
+  const { map } = state;
+
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const [picker, setPicker] = React.useState<boolean>(false);
+
+  const pickedLocation = (useSelector(
+    (state: IState) => state.location.picked
+  ) as unknown) as Location;
 
   const isSignedIn = useSelector(
     (state: IState) => state.auth.isSignedIn
   ) as boolean;
 
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [picker, setPicker] = React.useState<boolean>(false);
-
   useEffect(() => {
-    setOpen(props.open);
-  }, [props.open]);
+    setOpen(isSignedIn && !pickedLocation);
+  }, [isSignedIn, pickedLocation]);
 
   const handleClose = () => {
     setOpen(false);
@@ -162,32 +154,14 @@ const LocationPicker = (props: Props) => {
   };
 
   const getLocation = () => {
-    const canter = map.getCenter();
+    const center = map.getCenter();
 
     setPicker(false);
 
-    dispatch(setPickedLocation(canter));
-
-    if (markers?.picked) {
-      markers.picked.remove();
-    }
-
-    const marker = document.createElement("div");
-    marker.className = classes.marker;
-    new mapboxgl.Marker(marker, {
-      anchor: "bottom",
-    })
-      .setLngLat(canter)
-      .addTo(map);
-
-    setState({ ...state, markers: { ...markers, picked: marker } });
+    dispatch(setPickedLocation(center));
   };
 
   const enablePicker = () => {
-    if (picker) {
-      return;
-    }
-
     setPicker(true);
   };
 

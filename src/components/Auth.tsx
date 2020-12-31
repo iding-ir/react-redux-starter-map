@@ -14,15 +14,13 @@ import { registerUser } from "../actions/user";
 import { setCurrentLocation } from "../actions/location";
 import { IState } from "../reducers";
 import getLocation from "../utils/getLocation";
-import { StateContext } from "./StateProvider";
 import { SnackbarContext } from "./Snackbar/SnackbarProvider";
 
 export interface Location {
-  lnglat: {
-    lng: number;
-    lat: number;
-  };
+  lon: number;
+  lat: number;
 }
+
 export interface User {
   name: string;
   email: string;
@@ -48,13 +46,10 @@ const Auth = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const { state, setState } = useContext(StateContext);
-
-  const { map, markers } = state;
-
   const { setSnackbar } = useContext(SnackbarContext);
 
   const user = useSelector((state: IState) => state.auth.user) as User;
+
   const isSignedIn = useSelector(
     (state: IState) => state.auth.isSignedIn
   ) as boolean;
@@ -68,6 +63,7 @@ const Auth = (props: Props) => {
       const user = { name, email };
 
       dispatch(signIn(user));
+
       dispatch(registerUser(user));
 
       setSnackbar({
@@ -79,10 +75,10 @@ const Auth = (props: Props) => {
     getLocation()
       .then((p: unknown) => {
         const position = p as GeolocationPosition;
-        const currentLocation = ({
-          lng: position.coords.longitude,
+        const currentLocation = {
+          lon: position.coords.longitude,
           lat: position.coords.latitude,
-        } as unknown) as Location;
+        };
 
         dispatch(setCurrentLocation(currentLocation));
       })
@@ -112,12 +108,6 @@ const Auth = (props: Props) => {
       type: "success",
       message: t("auth.signOut"),
     });
-
-    if (markers?.picked) {
-      markers.picked.remove();
-    }
-
-    setState({ ...state, markers: { ...markers, picked: null } });
   };
 
   return isSignedIn ? (

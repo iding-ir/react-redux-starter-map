@@ -6,14 +6,14 @@ export interface IAction {
   payload: { location: Location | null };
 }
 
-export const setCurrentLocation = (location: Location): IAction => {
+export const setCurrentLocation = (location: Location | null): IAction => {
   return {
     type: LOCATION_SET_CURRENT,
     payload: { location },
   };
 };
 
-export const setPickedLocation = (location: Location): IAction => {
+export const setPickedLocation = (location: Location | null): IAction => {
   return {
     type: LOCATION_SET_PICKED,
     payload: { location },
