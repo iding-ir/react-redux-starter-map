@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { signIn, signOut } from "../actions/auth";
 import { registerUser } from "../actions/user";
+import { setCurrentLocation } from "../actions/location";
 import { IState } from "../reducers";
 import getLocation from "../utils/getLocation";
 import { SnackbarContext } from "./Snackbar/SnackbarProvider";
@@ -24,7 +25,6 @@ export interface Location {
 export interface User {
   name: string;
   email: string;
-  lnglat: Location;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,36 +54,34 @@ const Auth = (props: Props) => {
     (state: IState) => state.auth.isSignedIn
   ) as boolean;
 
-  const onSuccess = (
+  const onSuccess = async (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
+    if ("profileObj" in response) {
+      const name = response.profileObj.name as string;
+      const email = response.profileObj.email as string;
+      const user = { name, email };
+
+      dispatch(signIn(user));
+      dispatch(registerUser(user));
+
+      setSnackbar({
+        type: "success",
+        message: t("auth.singIn"),
+      });
+    }
+
     getLocation()
       .then((p: unknown) => {
         const position = p as GeolocationPosition;
+        const currentLocation = ({
+          lng: position.coords.longitude,
+          lat: position.coords.latitude,
+        } as unknown) as Location;
 
-        if ("profileObj" in response) {
-          const name = response.profileObj.name as string;
-          const email = response.profileObj.email as string;
-          const lnglat = ({
-            lng: position.coords.longitude,
-            lat: position.coords.latitude,
-          } as unknown) as Location;
-
-          const user = { name, email, lnglat };
-
-          dispatch(signIn(user));
-
-          dispatch(registerUser(user));
-
-          setSnackbar({
-            type: "success",
-            message: t("auth.singIn"),
-          });
-        }
+        dispatch(setCurrentLocation(currentLocation));
       })
       .catch((error) => {
-        dispatch(signOut());
-
         setSnackbar({
           type: "error",
           message: error,

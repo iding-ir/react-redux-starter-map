@@ -13,6 +13,11 @@ const localization = {
     signOut: "Successfully signed out",
     failure: "Failed to sign in",
   },
+  locationPicker: {
+    title: "Pick a location",
+    content: "In order to continue, pick a location on the map",
+    button: "Pick a location",
+  },
 };
 
 export default localization;
