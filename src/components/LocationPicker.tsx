@@ -173,7 +173,9 @@ const LocationPicker = (props: Props) => {
     <div>
       {isSignedIn && <div className={triggerClasses} onClick={enablePicker} />}
 
-      {picker && <div className={classes.picker} onClick={getLocation} />}
+      {isSignedIn && picker && (
+        <div className={classes.picker} onClick={getLocation} />
+      )}
 
       <Dialog
         onClose={handleClose}
