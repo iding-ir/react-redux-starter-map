@@ -1,7 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { GoogleLogin } from "react-google-login";
+import {
+  GoogleLogin,
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from "react-google-login";
 import Button from "@material-ui/core/Button";
 import { useTranslation } from "react-i18next";
 
@@ -47,22 +51,27 @@ const Auth = (props: Props) => {
     (state: IState) => state.auth.isSignedIn
   ) as boolean;
 
-  const onSuccess = (response: any) => {
+  const onSuccess = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ) => {
     getLocation()
       .then((p: unknown) => {
         const position = p as GeolocationPosition;
-        const name = response.profileObj.name as string;
-        const email = response.profileObj.email as string;
-        const lnglat = ({
-          lng: position.coords.longitude,
-          lat: position.coords.latitude,
-        } as unknown) as Location;
 
-        const user = { name, email, lnglat };
+        if ("profileObj" in response) {
+          const name = response.profileObj.name as string;
+          const email = response.profileObj.email as string;
+          const lnglat = ({
+            lng: position.coords.longitude,
+            lat: position.coords.latitude,
+          } as unknown) as Location;
 
-        dispatch(signIn(user));
+          const user = { name, email, lnglat };
 
-        dispatch(registerUser(user));
+          dispatch(signIn(user));
+
+          dispatch(registerUser(user));
+        }
       })
       .catch((error) => {
         dispatch(signOut());
