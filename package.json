@@ -1,6 +1,6 @@
 {
   "name": "starter-map",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "React and redux starter map.",
   "keywords": [
     "React",
@@ -60,8 +60,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "publish:npm": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline && tsc --project tsconfig.types.json"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -79,16 +78,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "babel": {
-    "presets": [
-      "@babel/preset-env",
-      "@babel/preset-react",
-      "@babel/preset-typescript"
-    ],
-    "plugins": [
-      "@babel/plugin-proposal-class-properties"
     ]
   }
 }
