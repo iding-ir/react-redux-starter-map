@@ -14,6 +14,7 @@ import { registerUser } from "../actions/user";
 import { setCurrentLocation } from "../actions/location";
 import { IState } from "../reducers";
 import getLocation from "../utils/getLocation";
+import { StateContext } from "./StateProvider";
 import { SnackbarContext } from "./Snackbar/SnackbarProvider";
 
 export interface Location {
@@ -46,6 +47,10 @@ const Auth = (props: Props) => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
+
+  const { state, setState } = useContext(StateContext);
+
+  const { map, markers } = state;
 
   const { setSnackbar } = useContext(SnackbarContext);
 
@@ -107,6 +112,12 @@ const Auth = (props: Props) => {
       type: "success",
       message: t("auth.signOut"),
     });
+
+    if (markers?.picked) {
+      markers.picked.remove();
+    }
+
+    setState({ ...state, markers: { ...markers, picked: null } });
   };
 
   return isSignedIn ? (
