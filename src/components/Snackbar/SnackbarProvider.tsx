@@ -2,12 +2,12 @@ import React, { useState, Context, createContext } from "react";
 
 import Snackbar from "./Snackbar";
 
-interface Snackbar {
+interface ISnackbar {
   type: "error" | "warning" | "success" | "info";
   message: string;
 }
 
-export type State = boolean | Snackbar;
+export type State = boolean | ISnackbar;
 
 export const SnackbarContext: Context<any> = createContext({
   snackbar: {},

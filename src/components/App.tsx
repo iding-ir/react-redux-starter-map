@@ -35,9 +35,9 @@ export default function ButtonAppBar() {
 
       <Header />
 
-      <MapContainer />
-
-      <LocationPicker open={isSignedIn && !pickedLocation} />
+      <MapContainer>
+        <LocationPicker open={isSignedIn && !pickedLocation} />
+      </MapContainer>
     </div>
   );
 }

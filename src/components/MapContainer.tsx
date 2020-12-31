@@ -8,6 +8,7 @@ import { StateContext } from "./StateProvider";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     map: {
+      position: "relative",
       width: "100%",
       height: "100%",
       flexGrow: 10,
@@ -15,9 +16,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-interface Props {}
+interface Props {
+  children: JSX.Element[] | JSX.Element;
+}
 
 const MapContainer = (props: Props) => {
+  const { children } = props;
+
   const classes = useStyles();
 
   const { state, setState } = useContext(StateContext);
@@ -42,7 +47,11 @@ const MapContainer = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <div className={classes.map} id="map"></div>;
+  return (
+    <div className={classes.map} id="map">
+      {children}
+    </div>
+  );
 };
 
 export default MapContainer;
