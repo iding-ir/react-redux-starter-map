@@ -13,11 +13,12 @@ import { useTranslation } from "react-i18next";
 
 import { IState } from "../reducers";
 import { closeSidebar } from "../actions/sidebar";
+import { SIDEBAR_WIDTH } from "../constants/constants";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     list: {
-      width: 250,
+      width: SIDEBAR_WIDTH,
     },
   })
 );

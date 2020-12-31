@@ -19,6 +19,7 @@ interface Props {}
 
 const MapContainer = (props: Props) => {
   const classes = useStyles();
+
   const { state, setState } = useContext(StateContext);
 
   useEffect(() => {

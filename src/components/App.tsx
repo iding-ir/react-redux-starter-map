@@ -19,8 +19,6 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function ButtonAppBar() {
   const classes = useStyles();
 
-  const { state, setState } = useContext(StateContext);
-
   return (
     <div className={classes.root}>
       <Sidebar />

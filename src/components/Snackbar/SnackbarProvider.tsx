@@ -1,13 +1,13 @@
 import React, { useState, Context, createContext } from "react";
 
-import SnackbarComponent from "./SnackbarComponent";
+import Snackbar from "./Snackbar";
 
-export interface State {
-  snackbar: {
-    type: "error" | "warning" | "success" | "info";
-    message: string;
-  };
+interface Snackbar {
+  type: "error" | "warning" | "success" | "info";
+  message: string;
 }
+
+export type State = boolean | Snackbar;
 
 export const SnackbarContext: Context<any> = createContext({
   snackbar: {},
@@ -21,11 +21,11 @@ interface Props {
 export const SnackbarProvider = (props: Props) => {
   const { children } = props;
 
-  const [snackbar, setSnackbar] = useState<State>();
+  const [snackbar, setSnackbar] = useState<State>(false);
 
   return (
     <SnackbarContext.Provider value={{ snackbar, setSnackbar }}>
-      <SnackbarComponent />
+      <Snackbar />
 
       {children}
     </SnackbarContext.Provider>

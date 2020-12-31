@@ -47,7 +47,7 @@ const Auth = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const { snackbar, setSnackbar } = useContext(SnackbarContext);
+  const { setSnackbar } = useContext(SnackbarContext);
 
   const user = useSelector((state: IState) => state.auth.user) as User;
   const isSignedIn = useSelector(
@@ -77,7 +77,7 @@ const Auth = (props: Props) => {
 
           setSnackbar({
             type: "success",
-            message: "bbb",
+            message: t("auth.singIn"),
           });
         }
       })
@@ -98,12 +98,17 @@ const Auth = (props: Props) => {
 
     setSnackbar({
       type: "error",
-      message: "error",
+      message: t("auth.failure"),
     });
   };
 
   const onSignOut = (event: any) => {
     dispatch(signOut());
+
+    setSnackbar({
+      type: "success",
+      message: t("auth.signOut"),
+    });
   };
 
   return isSignedIn ? (
@@ -111,13 +116,13 @@ const Auth = (props: Props) => {
       <span className={classes.name}>{user.name}</span>
 
       <Button variant="contained" color="default" onClick={onSignOut}>
-        {t("header.logout")}
+        {t("header.signOut")}
       </Button>
     </div>
   ) : (
     <GoogleLogin
       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID as string}
-      buttonText="Login"
+      buttonText={t("header.signIn")}
       onSuccess={onSuccess}
       onFailure={onFailure}
       cookiePolicy={"single_host_origin"}
